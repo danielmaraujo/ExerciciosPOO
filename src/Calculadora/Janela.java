@@ -35,6 +35,7 @@ public class Janela extends JFrame {
         painel.add(resultado);
 
         JTextArea taResultado = new JTextArea(1, 10);
+        taResultado.setEditable(false);
         painel.add(taResultado);
 
         JButton btnSoma = new JButton("+");
