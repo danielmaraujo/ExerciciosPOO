@@ -5,43 +5,61 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Jogo extends JFrame {
-    private int numero = 10; //(int)Math.random() * 11;
+public class Jogo {
+    private int numero = (int)(Math.random() * 100) + 1;
+    private JPanel panel1;
+    private JLabel resultado;
+    private JLabel label1;
+    private JLabel label2;
+    private JTextField tfPalpite;
+    private JButton novoJogoButton;
 
-    Jogo(){
-        setTitle("ADIVINHE!");
-        setSize(700, 300);
-        setResizable(false);
-
-        Container c = getContentPane();
-        JPanel p = new JPanel();
-        c.add(p);
-
-        JLabel textoInicial = new JLabel(
-                "Eu tenho um número entre 1 e 100, você pode adivinhá-lo? Entre com seu chute"
-        );
-        p.add(textoInicial);
-
-        JTextField tfPalpite = new JTextField(15);
-        p.add(tfPalpite);
-
-        JLabel resultado = new JLabel();
-        p.add(resultado);
-
+    public Jogo() {
         tfPalpite.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(Integer.parseInt(tfPalpite.getText()) == numero){
-                    resultado.setText("Parabéns! Você acertou");
-                }else{
-
+                int palpite = Integer.parseInt(tfPalpite.getText());
+                if (palpite <= 100 && palpite >=1){
+                    if(palpite == numero){
+                        resultado.setText("Parabéns! Você acertou");
+                        tfPalpite.setEditable(false);
+                        novoJogoButton.setVisible(true);
+                    }
+                    else{
+                        if(palpite > numero - 20 && palpite < numero+20){
+                            resultado.setText("Mais perto");
+                            tfPalpite.setBackground(Color.blue);
+                        }
+                        else{
+                            resultado.setText("Mais longe");
+                            tfPalpite.setBackground(Color.red);
+                        }
+                    }
+                }
+                else{
+                    resultado.setText("Valor inserido não está entre 1 e 100");
                 }
             }
         });
 
 
-
-
-        setVisible(true);
+        novoJogoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                numero = (int)(Math.random() * 100) + 1;
+                tfPalpite.setEditable(true);
+                resultado.setText("");
+                novoJogoButton.setVisible(false);
+            }
+        });
     }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Janela");
+        frame.setContentPane(new Jogo().panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
 }
