@@ -92,6 +92,7 @@ public class Janela extends JFrame {
         });
 
         setVisible(true);
+        repaint();
     }
 
 }
